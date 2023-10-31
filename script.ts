@@ -1,62 +1,28 @@
-// Uma array é definida com o tipo de dado(s) que ela possui, seguida por []
-const numeros = [10, 30, 40, 5, 3, 30];
-const valores = [10, "Taxas", 40, "Produto", 3, 30];
-
-function maiorQue10(data: Array<number>) {
-  return data.filter((n) => n > 10);
+// O any indica que o dado pode conter qualquer tipo de dado do TypeScript. Devemos evitar ao máximo o uso do any, pois o mesmo remove todas as seguranças e conveniências que o TS fornece.
+function normalizar(texto: any) {
+  return texto.trim("").toLowerCase();
 }
-console.log(maiorQue10(numeros));
 
-function filtrarValores(data: (string | number)[]) {
-  return data.filter((item) => typeof item === "number");
-}
-console.log(filtrarValores(valores));
+console.log(normalizar(" DeSign"));
+// console.log(normalizar(200));
 
-const dados: (string | number)[][] = [
-  ["senhor dos aneis", 80],
-  ["a guerra dos tronos", 120],
-];
-
-// Defina a interface da API: https://api.origamid.dev/json/cursos.json e mostre os dados na tela.
-
-// Existem apenas dois níveis de cursos, Iniciante (iniciante) e Avançado (avancado). Se for para iniciante pinte o título de azul, para avançado pinte de vermelho.
+// Usar o any pode quebrar a sua aplicação.
 interface Curso {
-  aulas: number;
-  gratuito: boolean;
-  horas: number;
-  idAulas: number[];
-  nivel: "iniciante" | "avancado";
   nome: string;
-  tags: string[];
+  horas: number;
 }
-
-async function fetchCursos() {
-  const response = await fetch("https://api.origamid.dev/json/cursos.json");
-  const data = await response.json();
-  console.log(data);
-  mostrarCursos(data);
-}
-
-fetchCursos();
 
 function mostrarCursos(cursos: Curso[]) {
   cursos.forEach((curso) => {
-    let color;
-    if (curso.nivel === "iniciante") {
-      color = "blue";
-    } else if (curso.nivel === "avancado") {
-      color = "red";
-    }
-
     document.body.innerHTML += `
       <div>
-        <h2 style="color: ${color};">${curso.nome}</h2>
+        <h2>${curso.nome}</h2>
         <p>Horas: ${curso.horas}</p>
-        <p>Aulas: ${curso.aulas}</p>
-        <p>Tipo: ${curso.gratuito ? "Gratuito" : "Pago"}</p>
-        <p>Tags: ${curso.tags.join(", ")}</p>
-        <p>Aulas: ${curso.idAulas.join(" | ")}</p>
       </div>
     `;
   });
 }
+
+const dados: any = "o any gera problemas";
+
+mostrarCursos(dados);
