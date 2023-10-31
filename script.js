@@ -1,33 +1,57 @@
 "use strict";
-let total = 200;
-total = "300";
-function isNumber(value) {
-    if (typeof value === "number") {
-        return true;
+let total = 10;
+total = "200";
+function preencherDados(dados) {
+    document.body.innerHTML += `
+  <div>
+    <h2>${dados.nome}</h2>
+    <p>R$ ${dados.preco}</p>
+    <p>Inclui teclado: ${dados.teclado ? "sim" : "não"}</p>
+  </div>
+  `;
+}
+preencherDados({
+    nome: "Computador",
+    preco: 2000,
+    teclado: false,
+});
+preencherDados({
+    nome: "Notebook",
+    preco: 2500,
+    teclado: true,
+});
+function pintarCategoria(categoria) {
+    if (categoria === "design") {
+        console.log("Pintar vermelho");
     }
-    else {
-        return "Não é número";
+    else if (categoria === "codigo") {
+        console.log("Pintar verde");
+    }
+    else if (categoria === "descod") {
+        console.log("Pintar roxo");
     }
 }
-// Retorna HTMLButtonElement | null
-const button = document.querySelector("button");
-// Optional chaining
-// Executa click() se button for diferente de null/undefined
-button?.click();
-// 1 - Crie uma função chamada toNumber
-// 2 - A função pode receber number | string
-// 3 - Se a função receber um número, retorne um número
-// 4 - Se a função receber uma string, retorne um número
-// 5 - Se ela receber algo diferente, retorne um erro. (throw "value deve ser um número ou uma string")
-function toNumber(value) {
-    if (typeof value === "number") {
-        return value;
-    }
-    else if (typeof value === "string") {
-        return Number(value);
-    }
-    else {
-        throw "value deve ser um número ou uma string";
-    }
+pintarCategoria("codigo");
+// Defina a interface da API: https://api.origamid.dev/json/notebook.json e mostre os dados na tela.
+async function fetchProduct() {
+    const response = await fetch("https://api.origamid.dev/json/notebook.json");
+    const data = await response.json();
+    console.log(data);
+    showProduct(data);
 }
-console.log(toNumber("50"));
+fetchProduct();
+function showProduct(data) {
+    document.body.innerHTML = `
+    <div>
+      <h2>${data.nome}</h2>
+      <p>${data.preco}</p>
+      <div>
+        <h3>Fabricante: ${data.empresaFabricante.nome}</h3>
+      </div>
+
+      <div>
+        <h3>Montadora: ${data.empresaMontadora.nome}</h3>
+      </div>
+    </div>
+  `;
+}
