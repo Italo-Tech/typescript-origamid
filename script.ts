@@ -1,28 +1,36 @@
-// O any indica que o dado pode conter qualquer tipo de dado do TypeScript. Devemos evitar ao máximo o uso do any, pois o mesmo remove todas as seguranças e conveniências que o TS fornece.
-function normalizar(texto: any) {
-  return texto.trim("").toLowerCase();
+// null é um tipo primitivo que representa a ausência de valor. É comum em funções do DOM que fazem uma busca, retornarem null quando não são bem sucedidas.
+const button = document.querySelector("button");
+const config = localStorage.getItem("config");
+
+if (button !== null) {
+  button.click();
+}
+if (button) {
+  button.click();
+}
+if (button) button.click();
+button?.click();
+
+console.log(typeof null);
+
+// undefined representa variáveis/propriedades que foram instanciadas, porém, os seus valores ainda não foram definidos.
+let total;
+console.log(total); // undefined
+
+const data = {};
+console.log(data.nome);
+
+// Podemos definir propriedades opcionais utilizando opcional?: string. Quando opcional, elas poderão sempre retornar como o valor definido ou undefined.
+interface Product {
+  nome?: string;
 }
 
-console.log(normalizar(" DeSign"));
-// console.log(normalizar(200));
+const livro: Product = {};
+const jogo: Product = {
+  nome: "Ragnarok",
+};
 
-// Usar o any pode quebrar a sua aplicação.
-interface Curso {
-  nome: string;
-  horas: number;
+if (jogo.nome) {
+  jogo.nome?.toLowerCase();
 }
-
-function mostrarCursos(cursos: Curso[]) {
-  cursos.forEach((curso) => {
-    document.body.innerHTML += `
-      <div>
-        <h2>${curso.nome}</h2>
-        <p>Horas: ${curso.horas}</p>
-      </div>
-    `;
-  });
-}
-
-const dados: any = "o any gera problemas";
-
-mostrarCursos(dados);
+livro.nome?.toLowerCase();
