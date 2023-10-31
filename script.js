@@ -1,18 +1,27 @@
 "use strict";
-// O any indica que o dado pode conter qualquer tipo de dado do TypeScript. Devemos evitar ao máximo o uso do any, pois o mesmo remove todas as seguranças e conveniências que o TS fornece.
-function normalizar(texto) {
-    return texto.trim("").toLowerCase();
+// null é um tipo primitivo que representa a ausência de valor. É comum em funções do DOM que fazem uma busca, retornarem null quando não são bem sucedidas.
+const button = document.querySelector("button");
+const config = localStorage.getItem("config");
+if (button !== null) {
+    button.click();
 }
-console.log(normalizar(" DeSign"));
-function mostrarCursos(cursos) {
-    cursos.forEach((curso) => {
-        document.body.innerHTML += `
-      <div>
-        <h2>${curso.nome}</h2>
-        <p>Horas: ${curso.horas}</p>
-      </div>
-    `;
-    });
+if (button) {
+    button.click();
 }
-const dados = "o any gera problemas";
-mostrarCursos(dados);
+if (button)
+    button.click();
+button?.click();
+console.log(typeof null);
+// undefined representa variáveis/propriedades que foram instanciadas, porém, os seus valores ainda não foram definidos.
+let total;
+console.log(total); // undefined
+const data = {};
+console.log(data.nome);
+const livro = {};
+const jogo = {
+    nome: "Ragnarok",
+};
+if (jogo.nome) {
+    jogo.nome?.toLowerCase();
+}
+livro.nome?.toLowerCase();
