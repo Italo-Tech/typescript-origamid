@@ -1,89 +1,62 @@
-// A palavra-chave type cria um atalho (alias) para um tipo customizado.
-type NumberOrString = number | string;
+// Uma array é definida com o tipo de dado(s) que ela possui, seguida por []
+const numeros = [10, 30, 40, 5, 3, 30];
+const valores = [10, "Taxas", 40, "Produto", 3, 30];
 
-let total: NumberOrString = 10;
-total = "200";
+function maiorQue10(data: Array<number>) {
+  return data.filter((n) => n > 10);
+}
+console.log(maiorQue10(numeros));
 
-type Produto = {
+function filtrarValores(data: (string | number)[]) {
+  return data.filter((item) => typeof item === "number");
+}
+console.log(filtrarValores(valores));
+
+const dados: (string | number)[][] = [
+  ["senhor dos aneis", 80],
+  ["a guerra dos tronos", 120],
+];
+
+// Defina a interface da API: https://api.origamid.dev/json/cursos.json e mostre os dados na tela.
+
+// Existem apenas dois níveis de cursos, Iniciante (iniciante) e Avançado (avancado). Se for para iniciante pinte o título de azul, para avançado pinte de vermelho.
+interface Curso {
+  aulas: number;
+  gratuito: boolean;
+  horas: number;
+  idAulas: number[];
+  nivel: "iniciante" | "avancado";
   nome: string;
-  preco: number;
-  teclado: boolean;
-};
-
-function preencherDados(dados: Produto) {
-  document.body.innerHTML += `
-  <div>
-    <h2>${dados.nome}</h2>
-    <p>R$ ${dados.preco}</p>
-    <p>Inclui teclado: ${dados.teclado ? "sim" : "não"}</p>
-  </div>
-  `;
+  tags: string[];
 }
 
-preencherDados({
-  nome: "Computador",
-  preco: 2000,
-  teclado: false,
-});
-
-preencherDados({
-  nome: "Notebook",
-  preco: 2500,
-  teclado: true,
-});
-
-type Categorias = "design" | "codigo" | "descod";
-
-function pintarCategoria(categoria: Categorias) {
-  if (categoria === "design") {
-    console.log("Pintar vermelho");
-  } else if (categoria === "codigo") {
-    console.log("Pintar verde");
-  } else if (categoria === "descod") {
-    console.log("Pintar roxo");
-  }
-}
-
-pintarCategoria("codigo");
-
-// Defina a interface da API: https://api.origamid.dev/json/notebook.json e mostre os dados na tela.
-async function fetchProduct() {
-  const response = await fetch("https://api.origamid.dev/json/notebook.json");
+async function fetchCursos() {
+  const response = await fetch("https://api.origamid.dev/json/cursos.json");
   const data = await response.json();
   console.log(data);
-  showProduct(data);
+  mostrarCursos(data);
 }
 
-fetchProduct();
+fetchCursos();
 
-interface Empresa {
-  fundacao: number;
-  nome: string;
-  pais: string;
-}
+function mostrarCursos(cursos: Curso[]) {
+  cursos.forEach((curso) => {
+    let color;
+    if (curso.nivel === "iniciante") {
+      color = "blue";
+    } else if (curso.nivel === "avancado") {
+      color = "red";
+    }
 
-interface Product {
-  nome: string;
-  garantia: string;
-  preco: number;
-  segueroAcidente: boolean;
-  descricao: string;
-  empresaFabricante: Empresa;
-  empresaMontadora: Empresa;
-}
-
-function showProduct(data: Product) {
-  document.body.innerHTML = `
-    <div>
-      <h2>${data.nome}</h2>
-      <p>${data.preco}</p>
+    document.body.innerHTML += `
       <div>
-        <h3>Fabricante: ${data.empresaFabricante.nome}</h3>
+        <h2 style="color: ${color};">${curso.nome}</h2>
+        <p>Horas: ${curso.horas}</p>
+        <p>Aulas: ${curso.aulas}</p>
+        <p>Tipo: ${curso.gratuito ? "Gratuito" : "Pago"}</p>
+        <p>Tags: ${curso.tags.join(", ")}</p>
+        <p>Aulas: ${curso.idAulas.join(" | ")}</p>
       </div>
-
-      <div>
-        <h3>Montadora: ${data.empresaMontadora.nome}</h3>
-      </div>
-    </div>
-  `;
+    `;
+  });
 }
