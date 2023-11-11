@@ -36,6 +36,7 @@ const anchorLinks = Array.from(links).filter(
 
 const urls = document.querySelectorAll(".link");
 urls.forEach((url) => {
+  console.dir(url.__proto__.__proto__);
   if (url instanceof HTMLElement) {
     ativarElemento(url);
   }
