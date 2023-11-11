@@ -26,6 +26,7 @@ const anchorLinks = Array.from(links).filter((link) => link instanceof HTMLAncho
 // 3 - Modificar através da função o estilo da color e border.
 const urls = document.querySelectorAll(".link");
 urls.forEach((url) => {
+    console.dir(url.__proto__.__proto__);
     if (url instanceof HTMLElement) {
         ativarElemento(url);
     }
