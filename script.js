@@ -1,63 +1,36 @@
 "use strict";
-class Produto {
-    nome;
-    preco;
-    autor;
-    constructor(nome, preco, autor) {
-        this.nome = nome;
-        this.preco = preco;
-        this.autor = autor;
-    }
-}
-// const livro = new Produto("Game of Thrones", 200);
-// console.log(livro instanceof Produto);
-class Livro extends Produto {
-    nome;
-    preco;
-    constructor(nome, preco, autor) {
-        super(nome, preco, autor);
-        this.nome = nome;
-        this.preco = preco;
-    }
-}
-const livro = new Livro("A vida de Pi", 150, "David Rokkins");
-console.log(livro);
-class Jogo extends Produto {
-    nome;
-    constructor(nome, preco, autor) {
-        super(nome, preco, autor);
-        this.nome = nome;
-        this.autor = autor;
-    }
-}
-const jogo = new Jogo("League of Legends", 200, "Ítalo");
-console.log(jogo);
-function buscarProduto(busca) {
-    if (busca === "O  hobbit") {
-        return new Livro("J. R. R. Tolkien", 50, "Steve Jobs");
-    }
-    if (busca === "Dota") {
-        return new Jogo("Dota", 400, "RPG");
+// document.querySelector('video'); // HTMLVideoElement
+// document.querySelector('img'); // HTMLImageElement
+// const link1 = document.querySelector('a'); // HTMLAnchorElement
+// const link2 = document.querySelector('#origamid'); // Element
+// link1?.href;
+// link2?.href; // erro no ts
+// const video = document.querySelector('video')
+// video?.
+const links = document.querySelectorAll(".link");
+console.log(links instanceof NodeList);
+links.forEach((link) => {
+    if (link instanceof HTMLAnchorElement) {
+        console.log(link.href);
     }
     else {
-        return null;
+        console.log(typeof link);
     }
+});
+// erro, filter é um método de Array e não de NodeList
+// const anchorLinks = links.filter((link) => link instanceof HTMLAnchorElement);
+// Funciona, pois a NodeList foi transformada em uma Array
+const anchorLinks = Array.from(links).filter((link) => link instanceof HTMLAnchorElement);
+// 1 - Selecione os elementos com a classe link.
+// 2 - Crie uma função que deve ser executada para cada elemento.
+// 3 - Modificar através da função o estilo da color e border.
+const urls = document.querySelectorAll(".link");
+urls.forEach((url) => {
+    if (url instanceof HTMLElement) {
+        ativarElemento(url);
+    }
+});
+function ativarElemento(elemento) {
+    elemento.style.color = "red";
+    elemento.style.border = "2px solid blue";
 }
-const produto = buscarProduto("Dota");
-if (produto instanceof Livro) {
-    console.log(produto.nome);
-}
-if (produto instanceof Jogo) {
-    console.log(produto.nome);
-}
-if (produto instanceof Produto) {
-    console.log(produto.nome);
-}
-// 1 - Selecione o link utilizando o método getElementById.
-// 2 - Substitua o href do link (HTMLAnchorElement) de http:// para https://.
-// <a id="origamid" href="http://www.origamid.com">Origamid</a>
-const link = document.getElementById("origamid");
-if (link instanceof HTMLAnchorElement) {
-    link.href = link.href.replace("http://", "https://");
-}
-console.dir(link);
