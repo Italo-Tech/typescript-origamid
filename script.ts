@@ -1,3 +1,15 @@
+// Exemplo 1
+function retorno<Tipo>(a: Tipo): Tipo {
+  return a;
+}
+
+retorno("A Game").charAt(0);
+// retorno<string>(a: string): string
+
+retorno(200).toFixed();
+// retorno<number>(a: number): number
+
+// Exemplo 2
 const numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const frutas = ["Melancia", "Banana", "Pêra", "Maça", "Abacate", "Uva"];
 
