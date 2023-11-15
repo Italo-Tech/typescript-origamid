@@ -1,37 +1,85 @@
-// Exemplo 1
-// function extractText<Tipo extends HTMLElement>(el: Tipo): string {
-//   return el.innerText;
+// function somar(a: number, b: number, c?: number): number {
+//   return a + b + (c ? c : 0);
+// }
+// somar(3, 4);
+// somar(3, 4, 1);
+
+// const subtrair = (a: number, b: number): number => a - b;
+
+// subtrair(10, 2);
+
+// type Callback = (event: MouseEvent) => void;
+
+// void
+// function pintarTela(cor: string) {
+//   document.body.style.background = cor;
 // }
 
-// const link = document.querySelector('a');
+// pintarTela('black');
 
-// if (link) {
-//   console.log(extractText(link));
-//   // extractText<HTMLAnchorElement extends HTMLElement>(el: HTMLAnchorElement): string
+// // Erro, void não pode ser verificado
+// if (pintarTela('black')) {
 // }
 
-// Exemplo 2
-// function $<Tipo extends Element>(selector: string): Tipo | null {
-//   return document.querySelector(selector);
+// const btn = document.querySelector('button');
+
+// // Erro, void não pode ser verificado
+// if (btn && btn.click()) {
 // }
-// const link = $<HTMLAnchorElement>('a')?.href;
 
-// Define que o retorno será um HTMLAnchorElement
-const link = document.querySelector<HTMLAnchorElement>(".link");
-link?.href;
+// // Se a função tiver qualquer tipo de retorno,
+// // ela não terá mais o void como uma opção e sim o undefined
+// function isString(value: any) {
+//   if (typeof value === 'string') {
+//     return true;
+//   }
+// }
 
-async function getData<T>(url: string): Promise<T> {
-  const response = await fetch(url);
-  return await response.json();
+// if (isString('teste')) {
+//   console.log('É string');
+// }
+
+// never
+// function abortar(mensagem: string): never {
+//   throw new Error(mensagem);
+// }
+
+// abortar("Um erro ocorreu");
+// console.log("Tente novamente");
+
+// método
+// interface Quadrado {
+//   lado: number;
+//   perimetro(lado: number): number;
+// }
+
+// function calcular(forma: Quadrado) {}
+
+// Overload - O Overload deve ser compatível com a função original.
+// function normalizar(valor: string): string;
+// function normalizar(valor: string[]): string[];
+// function normalizar(valor: string | string[]): string | string[] {
+//   if (typeof valor === "string") {
+//     return valor.trim().toLowerCase();
+//   } else {
+//     return valor.map((item) => item.trim().toLowerCase());
+//   }
+// }
+// console.log(normalizar(" Produto "));
+// console.log(normalizar(["Banana ", " UVA"]));
+
+// Crie uma função que arredonda um valor passado para cima.
+// A função pode receber string ou number.
+// A função deve retornar o mesmo tipo que ela receber.
+function arredondar(valor: string): string;
+function arredondar(valor: number): number;
+function arredondar(valor: string | number): string | number {
+  if (typeof valor === "number") {
+    return Math.ceil(valor);
+  } else {
+    return Math.ceil(Number(valor)).toString();
+  }
 }
 
-interface Notebook {
-  nome: string;
-}
-
-async function handleData() {
-  const notebook = await getData<Notebook>(
-    "https://api.origamid.dev/json/notebook.json"
-  );
-  console.log(notebook.nome);
-}
+console.log(arredondar(200.45));
+console.log(arredondar("300.45"));

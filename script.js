@@ -1,26 +1,16 @@
 "use strict";
-// Exemplo 1
-// function extractText<Tipo extends HTMLElement>(el: Tipo): string {
-//   return el.innerText;
+// function somar(a: number, b: number, c?: number): number {
+//   return a + b + (c ? c : 0);
 // }
-// const link = document.querySelector('a');
-// if (link) {
-//   console.log(extractText(link));
-//   // extractText<HTMLAnchorElement extends HTMLElement>(el: HTMLAnchorElement): string
-// }
-// Exemplo 2
-// function $<Tipo extends Element>(selector: string): Tipo | null {
-//   return document.querySelector(selector);
-// }
-// const link = $<HTMLAnchorElement>('a')?.href;
-// Define que o retorno será um HTMLAnchorElement
-const link = document.querySelector(".link");
-link?.href;
-async function getData(url) {
-    const response = await fetch(url);
-    return await response.json();
+// somar(3, 4);
+// somar(3, 4, 1);
+function arredondar(valor) {
+    if (typeof valor === "number") {
+        return Math.ceil(valor);
+    }
+    else {
+        return Math.ceil(Number(valor)).toString();
+    }
 }
-async function handleData() {
-    const notebook = await getData("https://api.origamid.dev/json/notebook.json");
-    console.log(notebook.nome);
-}
+console.log(arredondar(200.45));
+console.log(arredondar("300.45"));
