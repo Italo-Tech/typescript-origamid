@@ -1,32 +1,26 @@
 "use strict";
-const numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-const frutas = ["Melancia", "Banana", "Pêra", "Maça", "Abacate", "Uva"];
-// Sem generic
-// function firstFive(data: string[] | number[]) {
-//   return data.slice(0, 5);
+// Exemplo 1
+// function extractText<Tipo extends HTMLElement>(el: Tipo): string {
+//   return el.innerText;
 // }
-// Com generic
-function firstFive(data) {
-    return data.slice(0, 5);
+// const link = document.querySelector('a');
+// if (link) {
+//   console.log(extractText(link));
+//   // extractText<HTMLAnchorElement extends HTMLElement>(el: HTMLAnchorElement): string
+// }
+// Exemplo 2
+// function $<Tipo extends Element>(selector: string): Tipo | null {
+//   return document.querySelector(selector);
+// }
+// const link = $<HTMLAnchorElement>('a')?.href;
+// Define que o retorno será um HTMLAnchorElement
+const link = document.querySelector(".link");
+link?.href;
+async function getData(url) {
+    const response = await fetch(url);
+    return await response.json();
 }
-console.log(firstFive(numeros));
-console.log(firstFive(frutas));
-// Exemplo 3
-function notNull(arg) {
-    if (arg !== null)
-        return arg;
-    else
-        return null;
+async function handleData() {
+    const notebook = await getData("https://api.origamid.dev/json/notebook.json");
+    console.log(notebook.nome);
 }
-console.log(notNull(200)?.toFixed());
-console.log(notNull("André")?.toLowerCase());
-// Exemplo 4
-function tipoDado(a) {
-    const resultado = {
-        dado: a,
-        tipo: typeof a,
-    };
-    console.log(resultado);
-    return resultado;
-}
-tipoDado(true);
