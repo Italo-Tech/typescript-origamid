@@ -1,47 +1,37 @@
 // Exemplo 1
-function retorno<Tipo>(a: Tipo): Tipo {
-  return a;
-}
+// function extractText<Tipo extends HTMLElement>(el: Tipo): string {
+//   return el.innerText;
+// }
 
-retorno("A Game").charAt(0);
-// retorno<string>(a: string): string
+// const link = document.querySelector('a');
 
-retorno(200).toFixed();
-// retorno<number>(a: number): number
+// if (link) {
+//   console.log(extractText(link));
+//   // extractText<HTMLAnchorElement extends HTMLElement>(el: HTMLAnchorElement): string
+// }
 
 // Exemplo 2
-const numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-const frutas = ["Melancia", "Banana", "Pêra", "Maça", "Abacate", "Uva"];
-
-// Sem generic
-// function firstFive(data: string[] | number[]) {
-//   return data.slice(0, 5);
+// function $<Tipo extends Element>(selector: string): Tipo | null {
+//   return document.querySelector(selector);
 // }
-// Com generic
-function firstFive<T>(data: T[]): T[] {
-  return data.slice(0, 5);
+// const link = $<HTMLAnchorElement>('a')?.href;
+
+// Define que o retorno será um HTMLAnchorElement
+const link = document.querySelector<HTMLAnchorElement>(".link");
+link?.href;
+
+async function getData<T>(url: string): Promise<T> {
+  const response = await fetch(url);
+  return await response.json();
 }
 
-console.log(firstFive(numeros));
-console.log(firstFive(frutas));
-
-// Exemplo 3
-function notNull<Tipo>(arg: Tipo) {
-  if (arg !== null) return arg;
-  else return null;
+interface Notebook {
+  nome: string;
 }
 
-console.log(notNull(200)?.toFixed());
-console.log(notNull("André")?.toLowerCase());
-
-// Exemplo 4
-function tipoDado<T>(a: T): { dado: T; tipo: string } {
-  const resultado = {
-    dado: a,
-    tipo: typeof a,
-  };
-  console.log(resultado);
-  return resultado;
+async function handleData() {
+  const notebook = await getData<Notebook>(
+    "https://api.origamid.dev/json/notebook.json"
+  );
+  console.log(notebook.nome);
 }
-
-tipoDado(true);
