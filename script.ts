@@ -1,32 +1,45 @@
-// const video = document.querySelector(".player") as HTMLVideoElement;
-// erro runtime, não existe volume de null
-// video.volume;
-
-// erro TS, possíveis dados devem ser compatíveis com Element | null
-// const link = document.querySelector('.link') as string;
+const { body }: { body: HTMLElement } = document;
+// console.log(body);
 
 interface Produto {
   nome: string;
-  preco: number;
+  preco?: number;
 }
 
-async function fetchProduto() {
-  const response = await fetch("https://api.origamid.dev/json/notebook.json");
-  return response.json() as Promise<Produto>;
+function handleData({ nome, preco }: Produto) {
+  nome.includes("book");
+  preco?.toFixed();
 }
 
-// Podemos usar o as em diferentes locais.
-async function handleProduto1() {
-  const produto = await fetchProduto();
-  produto.nome;
+handleData({
+  nome: "Notebook",
+  preco: 240,
+});
+
+// Conhecer os dados
+function handleClick({
+  currentTarget,
+  pageX,
+}: {
+  currentTarget: EventTarget | null;
+  pageX: number;
+}) {
+  if (currentTarget instanceof HTMLElement) {
+    currentTarget.innerHTML = `<h1>Mouse Click em x:${pageX}</h1>`;
+  }
 }
 
-async function handleProduto2() {
-  const produto = (await fetchProduto()) as Produto;
-  produto.nome;
+document.documentElement.addEventListener("click", handleClick);
+
+// ...rest retorna uma array
+function comparar(tipo: "maior" | "menor", ...numeros: number[]) {
+  if (tipo === "maior") {
+    return Math.max(...numeros);
+  }
+  if (tipo === "menor") {
+    return Math.min(...numeros);
+  }
 }
 
-async function handleProduto3() {
-  const produto = await fetchProduto();
-  (produto as Produto).nome;
-}
+console.log(comparar("maior", 3, 2, 4, 30, 5, 6, 20));
+console.log(comparar("menor", 3, 2, 4, 1, 5, 6, 20));
