@@ -1,28 +1,24 @@
 "use strict";
-const { body } = document;
-function handleData({ nome, preco }) {
-    nome.includes("book");
-    preco?.toFixed();
+function handleProdutoCarro(dados) {
+    dados.portas;
+    dados.preco;
+    dados.rodas;
 }
-handleData({
-    nome: "Notebook",
-    preco: 240,
+handleProdutoCarro({
+    preco: 20000,
+    rodas: 4,
+    portas: 5,
 });
-// Conhecer os dados
-function handleClick({ currentTarget, pageX, }) {
-    if (currentTarget instanceof HTMLElement) {
-        currentTarget.innerHTML = `<h1>Mouse Click em x:${pageX}</h1>`;
-    }
-}
-document.documentElement.addEventListener("click", handleClick);
-// ...rest retorna uma array
-function comparar(tipo, ...numeros) {
-    if (tipo === "maior") {
-        return Math.max(...numeros);
-    }
-    if (tipo === "menor") {
-        return Math.min(...numeros);
-    }
-}
-console.log(comparar("maior", 3, 2, 4, 30, 5, 6, 20));
-console.log(comparar("menor", 3, 2, 4, 1, 5, 6, 20));
+const dado1 = {
+    preco: 2000,
+    rodas: 4,
+    portas: 5,
+};
+const dado2 = {
+    preco: 5000,
+    portas: 5,
+    rodas: 5,
+};
+console.log(dado1);
+console.log(dado2);
+window.userId = 200;

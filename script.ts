@@ -1,45 +1,61 @@
-const { body }: { body: HTMLElement } = document;
-// console.log(body);
+type Produto = {
+  preco: number;
+};
 
-interface Produto {
-  nome: string;
-  preco?: number;
+type Carro = {
+  rodas: number;
+  portas: number;
+};
+
+function handleProdutoCarro(dados: Carro & Produto) {
+  dados.portas;
+  dados.preco;
+  dados.rodas;
 }
 
-function handleData({ nome, preco }: Produto) {
-  nome.includes("book");
-  preco?.toFixed();
-}
-
-handleData({
-  nome: "Notebook",
-  preco: 240,
+handleProdutoCarro({
+  preco: 20000,
+  rodas: 4,
+  portas: 5,
 });
 
-// Conhecer os dados
-function handleClick({
-  currentTarget,
-  pageX,
-}: {
-  currentTarget: EventTarget | null;
-  pageX: number;
-}) {
-  if (currentTarget instanceof HTMLElement) {
-    currentTarget.innerHTML = `<h1>Mouse Click em x:${pageX}</h1>`;
-  }
+//Com interface
+interface InterfaceCarro {
+  rodas: number;
+  portas: number;
 }
 
-document.documentElement.addEventListener("click", handleClick);
-
-// ...rest retorna uma array
-function comparar(tipo: "maior" | "menor", ...numeros: number[]) {
-  if (tipo === "maior") {
-    return Math.max(...numeros);
-  }
-  if (tipo === "menor") {
-    return Math.min(...numeros);
-  }
+interface InterfaceCarro {
+  preco: number;
 }
 
-console.log(comparar("maior", 3, 2, 4, 30, 5, 6, 20));
-console.log(comparar("menor", 3, 2, 4, 1, 5, 6, 20));
+const dado1: InterfaceCarro = {
+  preco: 2000,
+  rodas: 4,
+  portas: 5,
+};
+
+// Com type
+type TypeCarro = {
+  rodas: number;
+  portas: number;
+};
+
+type TypeCarroWithPrice = TypeCarro & {
+  preco: number;
+};
+
+const dado2: TypeCarroWithPrice = {
+  preco: 5000,
+  portas: 5,
+  rodas: 5,
+};
+
+console.log(dado1);
+console.log(dado2);
+
+interface Windown {
+  userId: number;
+}
+
+window.userId = 200;
