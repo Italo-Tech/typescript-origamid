@@ -1,61 +1,74 @@
-type Produto = {
-  preco: number;
-};
+// 1 - Crie uma interface UserData para o formulário abaixo
+// 2 - Crie uma variável global UserData no window, ela será um objeto qualquer
+// 3 - Adicione um evento de keyup ao formulário
+// 4 - Quando o evento ocorrer adicione a {[id]: value} ao UserData
+// 5 - Salve UserData no localStorage
+// 6 - Crie uma User Type Guard, para verificar se o valor de localStorage é compatível com UserData
+// 7 - Ao refresh da página, preencha os valores de localStorage (caso seja UserData) no formulário e em window.UserData
 
-type Carro = {
-  rodas: number;
-  portas: number;
-};
-
-function handleProdutoCarro(dados: Carro & Produto) {
-  dados.portas;
-  dados.preco;
-  dados.rodas;
+interface UserData {
+  nome?: string;
+  email?: string;
+  cpf?: string;
 }
 
-handleProdutoCarro({
-  preco: 20000,
-  rodas: 4,
-  portas: 5,
-});
-
-//Com interface
-interface InterfaceCarro {
-  rodas: number;
-  portas: number;
+interface Window {
+  UserData: any;
 }
 
-interface InterfaceCarro {
-  preco: number;
+window.UserData = {};
+
+// Type Guard
+function isUserData(obj: unknown): obj is UserData {
+  if (
+    obj &&
+    typeof obj === "object" &&
+    ("nome" in obj || "email" in obj || "cpf" in obj)
+  ) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
-const dado1: InterfaceCarro = {
-  preco: 2000,
-  rodas: 4,
-  portas: 5,
-};
-
-// Com type
-type TypeCarro = {
-  rodas: number;
-  portas: number;
-};
-
-type TypeCarroWithPrice = TypeCarro & {
-  preco: number;
-};
-
-const dado2: TypeCarroWithPrice = {
-  preco: 5000,
-  portas: 5,
-  rodas: 5,
-};
-
-console.log(dado1);
-console.log(dado2);
-
-interface Windown {
-  userId: number;
+// Validar JSON
+function validJSON(str: string) {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
 }
 
-window.userId = 200;
+function loadLocalStorage() {
+  const localUserData = localStorage.getItem("UserData");
+  if (localUserData && validJSON(localUserData)) {
+    const UserData = JSON.parse(localUserData);
+
+    if (isUserData(UserData)) {
+      const retorno = Object.entries(UserData).forEach(([key, value]) => {
+        const input = document.getElementById(key);
+        if (input instanceof HTMLInputElement) {
+          input.value = value;
+          window.UserData[key] = value;
+        }
+      });
+    }
+  }
+}
+
+loadLocalStorage();
+
+function handleInput({ target }: KeyboardEvent) {
+  // Type Guard
+  if (target instanceof HTMLInputElement) {
+    window.UserData[target.id] = target.value;
+    // Local storage só aceita string, por isso do JSON.stringfy
+    localStorage.setItem("UserData", JSON.stringify(window.UserData));
+  }
+}
+
+const form = document.querySelector<HTMLElement>("#form");
+
+form?.addEventListener("keyup", handleInput);
